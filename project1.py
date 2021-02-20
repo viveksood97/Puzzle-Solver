@@ -5,7 +5,7 @@ Author: Vivek Sood - 117504279
 This python script is used to solve a n x n
 sliding number puzzle.
 
-The alogrithm I have implemented uses a priority
+The algorithm I have implemented uses a priority
 queue that optimizes the brute force bfs approach.
 
 For example: For testcase5 the code is 25.2 times
@@ -19,7 +19,6 @@ faster with around 15.3 times fewer iterations.
 import numpy as np
 import time
 import copy
-import argparse
 
 
 class PriorityQueue:
