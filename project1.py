@@ -2,14 +2,16 @@
 Project 1 ENPM661: Planning for Autonomous Robots
 Author: Vivek Sood - 117504279
 
-This python script is used to solve a n x n
-sliding number puzzle.
+This python script is used to solve any n x n
+sliding number puzzle(Only tested for 3x3, 4x4, 5x5).
 
 The algorithm I have implemented uses a priority
-queue that optimizes the brute force bfs approach.
+queue that optimizes the brute force breadth 
+first search approach.
 
 For example: For testcase5 the code is 25.2 times
-faster with around 15.3 times fewer iterations.
+faster with around 15.3 times fewer iterations when 
+comparing my algorithm with the suggested approach.
 
 """
 
@@ -19,6 +21,7 @@ faster with around 15.3 times fewer iterations.
 import numpy as np
 import time
 import copy
+import argparse
 
 
 class PriorityQueue:
@@ -89,9 +92,9 @@ class PriorityQueue:
         priority(np.array)
 
         """
-        index = self.priorityList.index(max(self.priorityList))
-        self.priorityList.pop(index)
-        return self.queue.pop(index)
+        indexOfMaximumPriority = self.priorityList.index(max(self.priorityList))
+        self.priorityList.pop(indexOfMaximumPriority)
+        return self.queue.pop(indexOfMaximumPriority)
 
 
 class Tile:
@@ -228,43 +231,66 @@ def main():
  ___/ / /_/ / /| |/ /  __/ /
 /____/\____/_/ |___/\___/_/
 """)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--testCase', type=str,default='5',required=False)
+    args = parser.parse_args()
+
+    print("\nYou can test some custom testcases i.e., testcases 6 to 8\n")
+    """Given Test cases"""
+
+    testCase1 = [[1, 2, 3, 4], [ 5, 6, 0, 8], [9, 10, 7, 12], [13, 14, 11, 15]]
+
+    testCase2 = [[1, 0, 3, 4], [ 5, 2, 7, 8], [9, 6, 10, 11], [13, 14, 15, 12]]
+
+    testCase3 = [[0, 2, 3, 4], [ 1, 5, 7, 8], [9, 6, 11, 12], [13, 10, 14, 15]]
+    
+    testCase4 = [[5, 1, 2, 3], [ 0, 6, 7, 4], [9, 10, 11, 8], [13, 14, 15, 12]]
+
+    testCase5 = [[1, 6, 2, 3], [ 9, 5, 7, 4], [0, 10, 11, 8], [13, 14, 15, 12]]
+
+    """a realiztic puzzle test case"""
+    testCase6 = [[1, 5, 9, 13], [2, 6, 10, 14], [3, 0, 7, 11], [4, 8, 12, 15]]
+
+    """test-case for a 3x3 puzzle"""
+    testCase7 = [[8, 7, 6], [5, 4, 3],[2, 1, 0]]
+
+    """test-case for a 5x5 puzzle"""
+    testCase8 = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [0, 22, 23, 21, 24]]
+
+    if args.testCase == "1" :
+        print("\nRunning Test-case 1")
+        testCase = np.array(testCase1)
+    elif args.testCase == "2" :
+        print("\nRunning Test-case 2")
+        testCase = np.array(testCase2)
+    elif args.testCase == "3" :
+        print("\nRunning Test-case 3")
+        testCase = np.array(testCase3)
+    elif args.testCase == "4" :
+        print("\nRunning Test-case 4")
+        testCase = np.array(testCase4)
+    elif args.testCase == "5" :
+        print("\nRunning Test-case 5")
+        testCase = np.array(testCase5)
+    elif args.testCase == "6" :
+        print("\nRunning Test-case 6 (a realiztic puzzle test case)")
+        testCase = np.array(testCase6)
+    elif args.testCase == "7" :
+        print("\nRunning Test-case 7 (test-case for a 3x3 puzzle)")
+        testCase = np.array(testCase7)
+    elif args.testCase == "8" :
+        print("\nRunning Test-case 8 (test-case for a 5x5 puzzle)")
+        testCase = np.array(testCase8)
+    else: 
+        print("\nNo valid testcase provided, Choose a valid from testcase number 1 to 8\n"+"Running default Test-case i.e., Test-case 5")
+        testCase = np.array(testCase5)
+
+
 
     start = time.time()
 
-    # Uncomment the testCases you need to run and comment the uncommented testcase
-
-    # testCase1 = np.array([[1, 2, 3, 4], [5, 6, 0, 8], [9, 10, 7, 12], [13, 14, 11, 15]])
-    # flatenedList = testCase1.flatten()
-
-    # testCase2 = np.array([[1, 0, 3, 4], [5, 2, 7, 8], [9, 6, 10, 11], [13, 14, 15, 12]])
-    # flatenedList = testCase2.flatten()
-
-    # testCase3 = np.array([[0, 2, 3, 4], [1, 5, 7, 8], [9, 6, 11, 12], [13, 10, 14, 15]])
-    # flatenedList = testCase3.flatten()
-
-    # testCase4 = np.array([[5, 1, 2, 3], [0, 6, 7, 4], [9, 10, 11, 8], [13, 14, 15, 12]])
-    # flatenedList = testCase4.flatten()
-
-    testCase5 = np.array([[1, 6, 2, 3], [9, 5, 7, 4], [0, 10, 11, 8], [13, 14, 15, 12]])
-    flatenedList = testCase5.flatten()
-
-    # some additional testcases
-
-    # testCase6 = np.array([[1, 5, 9, 13], [2, 6, 10, 14], [3, 0, 7, 11], [4, 8, 12, 15]])
-    # flatenedList = testCase6.flatten()
-
-    # test-case for a 3x3 puzzle
-
-    # testCase7 = np.array([[8,7,6],[5,4,3],[2,1,0]])
-    # flatenedList = testCase7.flatten()
-
-    # test-case for a 5x5 puzzle
-
-    # testCase8 = np.array([[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[0,22,23,21,24]])
-    # flatenedList = testCase8.flatten()
-
-
-    tile = Tile(flatenedList, {}, len(flatenedList))
+    flattenedList = testCase.flatten()
+    tile = Tile(flattenedList, {}, len(flattenedList))
 
     flag = False
     steps = 0
